@@ -1,0 +1,23 @@
+---
+# tasks file for php_nginx
+- name: nginx install # nginx installation
+  apt:
+    name: nginx-full
+    state: latest
+    update_cache: yes
+  notify: start nginx
+- name: php-fpm installation
+  apt:
+    name: php-fpm
+    state: latest 
+    update_cache: yes
+- name: create config in sites-available
+  copy:
+      dest: /etc/nginx/sites-available/default # required. Remote absolute path where the file should be copied to. If C(src) is a directory, this must be a directory too. If C(dest) is a non-existent path and if either C(dest) ends with "/" or C(src) is a directory, C(dest) is created. If I(dest) is a relative path, the starting directory is determined by the remote host. If C(src) and C(dest) are files, the parent directory of C(dest) is not created and the task fails if it does not already exist.
+      src: ~/My_Project/SF_Project/Ansible/roles/php_nginx/files/default # not required. Local path to a file to copy to the remote server. This can be absolute or relative. If path is a directory, it is copied recursively. In this case, if path ends with "/", only inside contents of that directory are copied to destination. Otherwise, if it does not end with "/", the directory itself with all contents is copied. This behavior is similar to the C(rsync) command line tool.
+  notify: restart nginx
+- name: create content
+  copy:
+      dest: /var/www/html/index.php # required. Remote absolute path where the file should be copied to. If C(src) is a directory, this must be a directory too. If C(dest) is a non-existent path and if either C(dest) ends with "/" or C(src) is a directory, C(dest) is created. If I(dest) is a relative path, the starting directory is determined by the remote host. If C(src) and C(dest) are files, the parent directory of C(dest) is not created and the task fails if it does not already exist.
+      src: ~/My_Project/SF_Project/Ansible/roles/php_nginx/files/index.php 
+  notify: restart php-fpm
