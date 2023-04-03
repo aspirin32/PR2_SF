@@ -1,4 +1,4 @@
-FROM python:3 as builder
+FROM python:alpine3.17
 
 WORKDIR /srv/app/
 
@@ -6,12 +6,5 @@ COPY requirements.txt ./
 RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
 COPY . .
-
-
-FROM python:alpine3.17
-
-WORKDIR /srv/app/
-
-COPY --from=builder . .
 
 CMD [ "python", "./web.py" ]
