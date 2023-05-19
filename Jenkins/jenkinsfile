@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('git clone') {
             steps {
-                git branch: 'main', credentialsId: '32f540e3-76eb-4f3a-bd96-7bfbe66976f7', url: 'https://github.com/aspirin32/GitHub_CI.git'
+                git branch: 'main', credentialsId: '***', url: 'https://github.com/aspirin32/GitHub_CI.git'
             }
         }
             stage('check_container') {
